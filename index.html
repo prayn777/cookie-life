@@ -16,10 +16,16 @@
   <header class="app-header">
     <div class="header-inner">
       <div class="header-title">
-        <span class="paw">🐾</span>
-        <div>
-          <h1>Cookie</h1>
-          <p>米克斯 · 約 5 歲 · 17kg</p>
+        <div class="avatar-wrap">
+          <img id="header-avatar" class="avatar-img" src="" alt="Cookie" />
+          <label class="avatar-change" title="更換照片">
+            📷
+            <input type="file" id="avatar-upload" accept="image/*" style="display:none" onchange="changeAvatar(this)" />
+          </label>
+        </div>
+        <div class="header-info">
+          <h1 id="pet-name" class="editable-field" onclick="editField('pet-name','Cookie')" title="點擊編輯">Cookie</h1>
+          <p id="pet-info" class="editable-field editable-sub" onclick="editField('pet-info','米克斯 · 約 5 歲 · 17kg')" title="點擊編輯">米克斯 · 約 5 歲 · 17kg</p>
         </div>
       </div>
     </div>
@@ -37,8 +43,6 @@
 
   <!-- Main Content -->
   <main class="app-main">
-
-    <!-- 成長日記 -->
     <section id="tab-diary" class="tab-section active">
       <div class="section-top">
         <h2 class="section-title">成長日記</h2>
@@ -47,7 +51,6 @@
       <div id="diary-list" class="timeline-list"></div>
     </section>
 
-    <!-- 體重追蹤 -->
     <section id="tab-weight" class="tab-section">
       <div class="section-top">
         <h2 class="section-title">體重追蹤</h2>
@@ -59,7 +62,6 @@
       <div id="weight-list" class="card-list"></div>
     </section>
 
-    <!-- 獸醫紀錄 -->
     <section id="tab-vet" class="tab-section">
       <div class="section-top">
         <h2 class="section-title">獸醫紀錄</h2>
@@ -68,7 +70,6 @@
       <div id="vet-list" class="card-list"></div>
     </section>
 
-    <!-- 洗澡紀錄 -->
     <section id="tab-grooming" class="tab-section">
       <div class="section-top">
         <h2 class="section-title">洗澡紀錄</h2>
@@ -77,7 +78,6 @@
       <div id="grooming-list" class="card-list"></div>
     </section>
 
-    <!-- 用藥紀錄 -->
     <section id="tab-medication" class="tab-section">
       <div class="section-top">
         <h2 class="section-title">用藥紀錄</h2>
@@ -86,7 +86,6 @@
       <div id="medication-list" class="card-list"></div>
     </section>
 
-    <!-- 衣物裝備 -->
     <section id="tab-clothes" class="tab-section">
       <div class="section-top">
         <h2 class="section-title">衣物裝備</h2>
@@ -94,7 +93,6 @@
       </div>
       <div id="clothes-list" class="clothes-grid"></div>
     </section>
-
   </main>
 
   <!-- Modal Overlay -->
@@ -242,6 +240,22 @@
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal()">取消</button>
       <button class="btn-save" onclick="saveRecord('clothes')">儲存</button>
+    </div>
+  </div>
+
+  <!-- Inline Edit Modal -->
+  <div id="modal-edit" class="modal hidden">
+    <div class="modal-header">
+      <h3 id="edit-modal-title">編輯</h3>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <label id="edit-label">內容</label>
+      <input type="text" id="edit-input" />
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeEditModal()">取消</button>
+      <button class="btn-save" onclick="saveEditField()">儲存</button>
     </div>
   </div>
 
