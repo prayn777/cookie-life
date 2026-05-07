@@ -6,7 +6,11 @@ const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== 計日器 =====
 function initDaysCounter() {
-  const days = Math.floor((new Date() - new Date('2025-08-26')) / 86400000) + 1;
+  const start = new Date(2025, 7, 26); // 7 = 8月（月份從0起算）
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  start.setHours(0, 0, 0, 0);
+  const days = Math.floor((today - start) / 86400000) + 1;
   document.getElementById('days-count').textContent = days;
 }
 
