@@ -15,315 +15,267 @@
 </head>
 <body>
 
-  <!-- ===== 主畫面 ===== -->
-  <div id="main-view">
-    <header class="app-header">
-      <div class="header-inner">
-        <div class="header-title">
-          <div class="avatar-wrap">
-            <img id="header-avatar" class="avatar-img" src="" alt="Cookie" />
-            <label class="avatar-change" title="更換照片">📷
-              <input type="file" id="avatar-upload" accept="image/*" style="display:none" onchange="changeAvatar(this)" />
-            </label>
-          </div>
-          <div class="header-info">
-            <h1 id="pet-name" class="editable-field" onclick="editField('pet-name')" title="點擊編輯">Cookie</h1>
-            <p id="pet-info" class="editable-field editable-sub" onclick="editField('pet-info')" title="點擊編輯">米克斯 · 約 5 歲 · 17kg</p>
-            <p class="days-counter">在一起第 <span id="days-count">—</span> 天 🐾</p>
-          </div>
+<div id="main-view">
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-title">
+        <div class="avatar-wrap">
+          <img id="header-avatar" class="avatar-img" src="" alt="Cookie" />
+          <label class="avatar-change">📷<input type="file" id="avatar-upload" accept="image/*" style="display:none" onchange="changeAvatar(this)" /></label>
+        </div>
+        <div class="header-info">
+          <h1 id="pet-name" class="editable-field" onclick="editField('pet-name')">Cookie</h1>
+          <p id="pet-info" class="editable-field editable-sub" onclick="editField('pet-info')">米克斯 · 約 5 歲 · 17kg</p>
+          <p class="days-counter">在一起第 <span id="days-count">—</span> 天 🐾</p>
         </div>
       </div>
-    </header>
-
-    <nav class="tab-nav">
-      <button class="tab-btn active" data-tab="diary">成長日記</button>
-      <button class="tab-btn" data-tab="weight">體重</button>
-      <button class="tab-btn" data-tab="vet">獸醫</button>
-      <button class="tab-btn" data-tab="grooming">洗澡</button>
-      <button class="tab-btn" data-tab="medication">用藥</button>
-      <button class="tab-btn" data-tab="food">零食飼料</button>
-      <button class="tab-btn" data-tab="clothes">裝備</button>
-    </nav>
-
-    <main class="app-main">
-      <!-- 成長日記 -->
-      <section id="tab-diary" class="tab-section active">
-        <div class="section-top">
-          <h2 class="section-title">成長日記</h2>
-          <button class="btn-add" onclick="openModal('diary')">＋ 新增</button>
-        </div>
-        <div id="diary-list" class="timeline-list"></div>
-      </section>
-
-      <!-- 體重 -->
-      <section id="tab-weight" class="tab-section">
-        <div class="section-top"><h2 class="section-title">體重追蹤</h2><button class="btn-add" onclick="openModal('weight')">＋ 新增</button></div>
-        <div id="weight-chart-wrap" class="chart-wrap"><canvas id="weightChart"></canvas></div>
-        <div id="weight-list" class="card-list"></div>
-      </section>
-
-      <!-- 獸醫 -->
-      <section id="tab-vet" class="tab-section">
-        <div class="section-top"><h2 class="section-title">獸醫紀錄</h2><button class="btn-add" onclick="openModal('vet')">＋ 新增</button></div>
-        <div id="vet-list" class="card-list"></div>
-      </section>
-
-      <!-- 洗澡 -->
-      <section id="tab-grooming" class="tab-section">
-        <div class="section-top"><h2 class="section-title">洗澡紀錄</h2><button class="btn-add" onclick="openModal('grooming')">＋ 新增</button></div>
-        <div id="grooming-list" class="card-list"></div>
-      </section>
-
-      <!-- 用藥 -->
-      <section id="tab-medication" class="tab-section">
-        <div class="section-top"><h2 class="section-title">用藥紀錄</h2><button class="btn-add" onclick="openModal('medication')">＋ 新增</button></div>
-        <div id="medication-table" class="med-table-wrap"></div>
-      </section>
-
-      <!-- 零食飼料 -->
-      <section id="tab-food" class="tab-section">
-        <div class="section-top"><h2 class="section-title">零食 &amp; 飼料</h2><button class="btn-add" onclick="openModal('food')">＋ 新增</button></div>
-        <div id="food-list" class="food-grid"></div>
-      </section>
-
-      <!-- 裝備 -->
-      <section id="tab-clothes" class="tab-section">
-        <div class="section-top"><h2 class="section-title">衣物裝備</h2><button class="btn-add" onclick="openModal('clothes')">＋ 新增</button></div>
-        <div id="clothes-list" class="clothes-grid"></div>
-      </section>
-    </main>
-  </div>
-
-  <!-- ===== 詳細頁（全螢幕）===== -->
-  <div id="detail-view" class="detail-view hidden">
-    <div class="detail-header">
-      <button class="detail-back" onclick="closeDetail()">← 返回</button>
-      <div class="detail-actions">
-        <button class="detail-btn edit" id="detail-edit-btn" onclick="triggerDetailEdit()">✏️ 編輯</button>
-        <button class="detail-btn del" id="detail-delete-btn" onclick="triggerDetailDelete()">刪除</button>
-      </div>
     </div>
-    <div id="detail-content" class="detail-content"></div>
-  </div>
+  </header>
 
-  <!-- ===== Modals ===== -->
-  <div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal()"></div>
+  <!-- Tab列：長按拖曳 -->
+  <nav class="tab-nav" id="tab-nav">
+    <button class="tab-btn active" data-tab="diary">成長日記</button>
+    <button class="tab-btn" data-tab="weight">體重</button>
+    <button class="tab-btn" data-tab="vet">獸醫</button>
+    <button class="tab-btn" data-tab="grooming">洗澡</button>
+    <button class="tab-btn" data-tab="medication">用藥</button>
+    <button class="tab-btn" data-tab="food">零食飼料</button>
+    <button class="tab-btn" data-tab="clothes">裝備</button>
+  </nav>
 
-  <!-- 日記 新增 -->
-  <div id="modal-diary" class="modal hidden">
-    <div class="modal-header"><h3>新增日記</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <label>日期</label><input type="date" id="diary-date" />
-      <label>里程碑（選填）</label><input type="text" id="diary-milestone" placeholder="例：確定領養！露營 No.1" />
-      <label>內容</label><textarea id="diary-content" rows="4" placeholder="記錄今天發生的事…"></textarea>
-      <label>心情小記（選填）</label><textarea id="diary-note" rows="2" placeholder="心情、觀察…"></textarea>
-      <label>照片（可多選）</label><input type="file" id="diary-photos" accept="image/*" multiple />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveRecord('diary')">儲存</button>
+  <main class="app-main">
+    <section id="tab-diary" class="tab-section active">
+      <div class="section-top"><h2 class="section-title">成長日記</h2><button class="btn-add" onclick="openModal('diary')">＋ 新增</button></div>
+      <div id="diary-list" class="timeline-list"></div>
+    </section>
+    <section id="tab-weight" class="tab-section">
+      <div class="section-top"><h2 class="section-title">體重追蹤</h2><button class="btn-add" onclick="openModal('weight')">＋ 新增</button></div>
+      <div id="weight-chart-wrap" class="chart-wrap"><canvas id="weightChart"></canvas></div>
+      <div id="weight-list" class="card-list"></div>
+    </section>
+    <section id="tab-vet" class="tab-section">
+      <div class="section-top"><h2 class="section-title">獸醫紀錄</h2><button class="btn-add" onclick="openModal('vet')">＋ 新增</button></div>
+      <div id="vet-list" class="card-list"></div>
+    </section>
+    <section id="tab-grooming" class="tab-section">
+      <div class="section-top"><h2 class="section-title">洗澡紀錄</h2><button class="btn-add" onclick="openModal('grooming')">＋ 新增</button></div>
+      <div id="grooming-list" class="card-list"></div>
+    </section>
+    <section id="tab-medication" class="tab-section">
+      <div class="section-top"><h2 class="section-title">用藥紀錄</h2><button class="btn-add" onclick="openModal('medication')">＋ 新增</button></div>
+      <div id="medication-table" class="med-table-wrap"></div>
+    </section>
+    <section id="tab-food" class="tab-section">
+      <div class="section-top"><h2 class="section-title">零食 &amp; 飼料</h2><button class="btn-add" onclick="openModal('food')">＋ 新增</button></div>
+      <div id="food-list" class="food-grid"></div>
+    </section>
+    <section id="tab-clothes" class="tab-section">
+      <div class="section-top"><h2 class="section-title">衣物裝備</h2><button class="btn-add" onclick="openModal('clothes')">＋ 新增</button></div>
+      <div id="clothes-list" class="clothes-grid"></div>
+    </section>
+  </main>
+</div>
+
+<!-- 詳細頁 -->
+<div id="detail-view" class="detail-view hidden">
+  <div class="detail-header">
+    <button class="detail-back" onclick="closeDetail()">← 返回</button>
+    <div class="detail-actions">
+      <button class="detail-btn edit" id="detail-edit-btn" onclick="triggerDetailEdit()">✏️ 編輯</button>
+      <button class="detail-btn del" id="detail-delete-btn" onclick="triggerDetailDelete()">刪除</button>
     </div>
   </div>
+  <div id="detail-content" class="detail-content"></div>
+</div>
 
-  <!-- 日記 編輯 -->
-  <div id="modal-diary-edit" class="modal hidden">
-    <div class="modal-header"><h3>編輯日記</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <input type="hidden" id="edit-diary-id" />
-      <label>日期</label><input type="date" id="edit-diary-date" />
-      <label>里程碑（選填）</label><input type="text" id="edit-diary-milestone" />
-      <label>內容</label><textarea id="edit-diary-content" rows="4"></textarea>
-      <label>心情小記（選填）</label><textarea id="edit-diary-note" rows="2"></textarea>
-      <label>新增照片（可多選）</label><input type="file" id="edit-diary-photos" accept="image/*" multiple />
-      <div id="edit-diary-existing-photos" class="existing-photos"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveEditDiary()">儲存</button>
-    </div>
+<!-- 用藥編輯詳細頁 -->
+<div id="med-edit-view" class="detail-view hidden">
+  <div class="detail-header">
+    <button class="detail-back" onclick="closeMedEdit()">← 返回</button>
+    <div><span id="med-edit-title" style="font-size:15px;font-weight:500;color:var(--dark-brown)"></span></div>
   </div>
+  <div class="detail-content" id="med-edit-content"></div>
+</div>
 
-  <!-- 體重 -->
-  <div id="modal-weight" class="modal hidden">
-    <div class="modal-header"><h3>新增體重</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <label>日期</label><input type="date" id="weight-date" />
-      <label>體重（kg）</label><input type="number" id="weight-kg" step="0.1" placeholder="例：17.2" />
-      <label>備註（選填）</label><input type="text" id="weight-note" />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveRecord('weight')">儲存</button>
-    </div>
+<!-- Overlay -->
+<div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal()"></div>
+
+<!-- 日記新增 -->
+<div id="modal-diary" class="modal hidden">
+  <div class="modal-header"><h3>新增日記</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <label>日期</label><input type="date" id="diary-date" />
+    <label>里程碑（選填）</label><input type="text" id="diary-milestone" placeholder="例：確定領養！露營 No.1" />
+    <label>內容</label><textarea id="diary-content" rows="4" placeholder="記錄今天發生的事…"></textarea>
+    <label>心情小記（選填）</label><textarea id="diary-note" rows="2" placeholder="心情、觀察…"></textarea>
+    <label>照片（可多選）</label><input type="file" id="diary-photos" accept="image/*" multiple />
+    <div id="diary-photo-preview" class="photo-preview-row"></div>
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveRecord('diary')">儲存</button></div>
+</div>
 
-  <!-- 獸醫 -->
-  <div id="modal-vet" class="modal hidden">
-    <div class="modal-header"><h3>新增獸醫紀錄</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <label>日期</label><input type="date" id="vet-date" />
-      <label>診所名稱</label><input type="text" id="vet-clinic" placeholder="例：加恩動物醫院" />
-      <label>就診原因</label><input type="text" id="vet-reason" placeholder="例：年度健檢" />
-      <label>診斷／結果（選填）</label><textarea id="vet-diagnosis" rows="2"></textarea>
-      <label>費用（NT$）</label><input type="number" id="vet-cost" />
-      <label>備註（選填）</label><input type="text" id="vet-note" />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveRecord('vet')">儲存</button>
-    </div>
+<!-- 日記編輯 -->
+<div id="modal-diary-edit" class="modal hidden">
+  <div class="modal-header"><h3>編輯日記</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="edit-diary-id" />
+    <label>日期</label><input type="date" id="edit-diary-date" />
+    <label>里程碑（選填）</label><input type="text" id="edit-diary-milestone" />
+    <label>內容</label><textarea id="edit-diary-content" rows="4"></textarea>
+    <label>心情小記（選填）</label><textarea id="edit-diary-note" rows="2"></textarea>
+    <label>新增照片（可多選）</label><input type="file" id="edit-diary-photos" accept="image/*" multiple />
+    <div id="edit-diary-existing-photos" class="existing-photos"></div>
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveEditDiary()">儲存</button></div>
+</div>
 
-  <!-- 洗澡 -->
-  <div id="modal-grooming" class="modal hidden">
-    <div class="modal-header"><h3>新增洗澡紀錄</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <label>日期</label><input type="date" id="grooming-date" />
-      <label>店家名稱</label><input type="text" id="grooming-shop" />
-      <label>服務項目</label><input type="text" id="grooming-service" placeholder="例：全套洗澡" />
-      <label>費用（NT$）</label><input type="number" id="grooming-cost" />
-      <label>備註（選填）</label><input type="text" id="grooming-note" />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveRecord('grooming')">儲存</button>
-    </div>
+<!-- 體重 -->
+<div id="modal-weight" class="modal hidden">
+  <div class="modal-header"><h3>新增體重</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <label>日期</label><input type="date" id="weight-date" />
+    <label>體重（kg）</label><input type="number" id="weight-kg" step="0.1" placeholder="例：17.2" />
+    <label>備註（選填）</label><input type="text" id="weight-note" />
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveRecord('weight')">儲存</button></div>
+</div>
 
-  <!-- 用藥 -->
-  <div id="modal-medication" class="modal hidden">
-    <div class="modal-header"><h3>新增用藥排程</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <label>藥品名稱</label><input type="text" id="medication-name" placeholder="例：免操心" />
-      <label>起始日期</label><input type="date" id="medication-start" />
-      <label>週期</label>
-      <select id="medication-cycle">
-        <option value="1">每月（1 個月）</option>
-        <option value="3">每季（3 個月）</option>
-      </select>
-      <label>預計幾次</label><input type="number" id="medication-count" value="12" />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveMedSchedule()">儲存</button>
-    </div>
+<!-- 獸醫 -->
+<div id="modal-vet" class="modal hidden">
+  <div class="modal-header"><h3>新增獸醫紀錄</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <label>日期</label><input type="date" id="vet-date" />
+    <label>診所名稱</label><input type="text" id="vet-clinic" placeholder="例：加恩動物醫院" />
+    <label>就診原因</label><input type="text" id="vet-reason" placeholder="例：年度健檢" />
+    <label>診斷／結果（選填）</label><textarea id="vet-diagnosis" rows="2"></textarea>
+    <label>費用（NT$）</label><input type="number" id="vet-cost" />
+    <label>備註（選填）</label><input type="text" id="vet-note" />
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveRecord('vet')">儲存</button></div>
+</div>
 
-  <!-- 用藥 編輯單筆 -->
-  <div id="modal-med-edit" class="modal hidden">
-    <div class="modal-header"><h3>編輯日期</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <input type="hidden" id="edit-med-id" />
-      <label>日期</label><input type="date" id="edit-med-date" />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveMedEdit()">儲存</button>
-    </div>
+<!-- 洗澡 -->
+<div id="modal-grooming" class="modal hidden">
+  <div class="modal-header"><h3>新增洗澡紀錄</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <label>日期</label><input type="date" id="grooming-date" />
+    <label>店家名稱</label><input type="text" id="grooming-shop" />
+    <label>服務項目</label><input type="text" id="grooming-service" placeholder="例：全套洗澡" />
+    <label>費用（NT$）</label><input type="number" id="grooming-cost" />
+    <label>備註（選填）</label><input type="text" id="grooming-note" />
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveRecord('grooming')">儲存</button></div>
+</div>
 
-  <!-- 零食飼料 新增 -->
-  <div id="modal-food" class="modal hidden">
-    <div class="modal-header"><h3>新增零食／飼料</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <label>品名</label><input type="text" id="food-name" placeholder="例：凍乾雞肉零食" />
-      <label>牌子（選填）</label><input type="text" id="food-brand" />
-      <label>食用心得</label><textarea id="food-review" rows="2" placeholder="Cookie 喜歡嗎？"></textarea>
-      <label>評分</label>
-      <div class="star-input" id="star-input">
-        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span>
-        <span class="star" data-val="3">★</span><span class="star" data-val="4">★</span>
-        <span class="star" data-val="5">★</span>
-      </div>
-      <input type="hidden" id="food-rating" value="0" />
-      <label>價格（NT$，選填）</label><input type="number" id="food-price" />
-      <label>照片（可多選）</label><input type="file" id="food-photos" accept="image/*" multiple />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveRecord('food')">儲存</button>
-    </div>
+<!-- 用藥新增 -->
+<div id="modal-medication" class="modal hidden">
+  <div class="modal-header"><h3>新增用藥排程</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <label>藥品名稱</label><input type="text" id="medication-name" placeholder="例：免操心" />
+    <label>起始日期</label><input type="date" id="medication-start" />
+    <label>週期</label>
+    <select id="medication-cycle"><option value="1">每月（1 個月）</option><option value="3">每季（3 個月）</option></select>
+    <label>預計幾次</label><input type="number" id="medication-count" value="12" />
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveMedSchedule()">儲存</button></div>
+</div>
 
-  <!-- 零食 編輯 -->
-  <div id="modal-food-edit" class="modal hidden">
-    <div class="modal-header"><h3>編輯零食／飼料</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <input type="hidden" id="edit-food-id" />
-      <label>品名</label><input type="text" id="edit-food-name" />
-      <label>牌子（選填）</label><input type="text" id="edit-food-brand" />
-      <label>食用心得</label><textarea id="edit-food-review" rows="2"></textarea>
-      <label>評分</label>
-      <div class="star-input" id="edit-star-input">
-        <span class="star edit-star" data-val="1">★</span><span class="star edit-star" data-val="2">★</span>
-        <span class="star edit-star" data-val="3">★</span><span class="star edit-star" data-val="4">★</span>
-        <span class="star edit-star" data-val="5">★</span>
-      </div>
-      <input type="hidden" id="edit-food-rating" value="0" />
-      <label>價格（NT$，選填）</label><input type="number" id="edit-food-price" />
-      <label>新增照片（可多選）</label><input type="file" id="edit-food-photos" accept="image/*" multiple />
-      <div id="edit-food-existing" class="existing-photos"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveFoodEdit()">儲存</button>
-    </div>
+<!-- 用藥單筆日期編輯 -->
+<div id="modal-med-single" class="modal hidden">
+  <div class="modal-header"><h3>編輯日期</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="edit-med-id" />
+    <label>日期</label><input type="date" id="edit-med-date" />
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveMedSingle()">儲存</button></div>
+</div>
 
-  <!-- 裝備 新增 -->
-  <div id="modal-clothes" class="modal hidden">
-    <div class="modal-header"><h3>新增裝備</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <label>品名</label><input type="text" id="clothes-name" />
-      <label>尺寸</label><input type="text" id="clothes-size" />
-      <label>顏色</label><input type="text" id="clothes-color" />
-      <label>購買日期</label><input type="date" id="clothes-date" />
-      <label>價格（NT$）</label><input type="number" id="clothes-price" />
-      <label>備註（選填）</label><input type="text" id="clothes-note" />
-      <label>照片（可多選）</label><input type="file" id="clothes-photos" accept="image/*" multiple />
+<!-- 零食新增 -->
+<div id="modal-food" class="modal hidden">
+  <div class="modal-header"><h3>新增零食／飼料</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <label>品名</label><input type="text" id="food-name" placeholder="例：凍乾雞肉零食" />
+    <label>牌子（選填）</label><input type="text" id="food-brand" />
+    <label>食用心得</label><textarea id="food-review" rows="2" placeholder="Cookie 喜歡嗎？"></textarea>
+    <label>評分</label>
+    <div class="star-input" id="star-input">
+      <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span>
+      <span class="star" data-val="3">★</span><span class="star" data-val="4">★</span>
+      <span class="star" data-val="5">★</span>
     </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveRecord('clothes')">儲存</button>
-    </div>
+    <input type="hidden" id="food-rating" value="0" />
+    <label>價格（NT$，選填）</label><input type="number" id="food-price" />
+    <label>照片（可多選）</label><input type="file" id="food-photos" accept="image/*" multiple />
+    <div id="food-photo-preview" class="photo-preview-row"></div>
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveRecord('food')">儲存</button></div>
+</div>
 
-  <!-- 裝備 編輯 -->
-  <div id="modal-clothes-edit" class="modal hidden">
-    <div class="modal-header"><h3>編輯裝備</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <input type="hidden" id="edit-clothes-id" />
-      <label>品名</label><input type="text" id="edit-clothes-name" />
-      <label>尺寸</label><input type="text" id="edit-clothes-size" />
-      <label>顏色</label><input type="text" id="edit-clothes-color" />
-      <label>購買日期</label><input type="date" id="edit-clothes-date" />
-      <label>價格（NT$）</label><input type="number" id="edit-clothes-price" />
-      <label>備註（選填）</label><input type="text" id="edit-clothes-note" />
-      <label>新增照片（可多選）</label><input type="file" id="edit-clothes-photos" accept="image/*" multiple />
-      <div id="edit-clothes-existing" class="existing-photos"></div>
+<!-- 零食編輯 -->
+<div id="modal-food-edit" class="modal hidden">
+  <div class="modal-header"><h3>編輯零食／飼料</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="edit-food-id" />
+    <label>品名</label><input type="text" id="edit-food-name" />
+    <label>牌子（選填）</label><input type="text" id="edit-food-brand" />
+    <label>食用心得</label><textarea id="edit-food-review" rows="2"></textarea>
+    <label>評分</label>
+    <div class="star-input" id="edit-star-input">
+      <span class="star edit-star" data-val="1">★</span><span class="star edit-star" data-val="2">★</span>
+      <span class="star edit-star" data-val="3">★</span><span class="star edit-star" data-val="4">★</span>
+      <span class="star edit-star" data-val="5">★</span>
     </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveClothesEdit()">儲存</button>
-    </div>
+    <input type="hidden" id="edit-food-rating" value="0" />
+    <label>價格（NT$，選填）</label><input type="number" id="edit-food-price" />
+    <label>新增照片（可多選）</label><input type="file" id="edit-food-photos" accept="image/*" multiple />
+    <div id="edit-food-existing" class="existing-photos"></div>
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveFoodEdit()">儲存</button></div>
+</div>
 
-  <!-- 基本資訊編輯 -->
-  <div id="modal-edit" class="modal hidden">
-    <div class="modal-header"><h3 id="edit-modal-title">編輯</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body">
-      <label id="edit-label">內容</label><input type="text" id="edit-input" />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveEditField()">儲存</button>
-    </div>
+<!-- 裝備新增 -->
+<div id="modal-clothes" class="modal hidden">
+  <div class="modal-header"><h3>新增裝備</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <label>品名</label><input type="text" id="clothes-name" />
+    <label>尺寸</label><input type="text" id="clothes-size" />
+    <label>顏色</label><input type="text" id="clothes-color" />
+    <label>購買日期</label><input type="date" id="clothes-date" />
+    <label>價格（NT$）</label><input type="number" id="clothes-price" />
+    <label>備註（選填）</label><input type="text" id="clothes-note" />
+    <label>照片（可多選）</label><input type="file" id="clothes-photos" accept="image/*" multiple />
+    <div id="clothes-photo-preview" class="photo-preview-row"></div>
   </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveRecord('clothes')">儲存</button></div>
+</div>
 
-  <div id="toast" class="toast hidden"></div>
+<!-- 裝備編輯 -->
+<div id="modal-clothes-edit" class="modal hidden">
+  <div class="modal-header"><h3>編輯裝備</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="edit-clothes-id" />
+    <label>品名</label><input type="text" id="edit-clothes-name" />
+    <label>尺寸</label><input type="text" id="edit-clothes-size" />
+    <label>顏色</label><input type="text" id="edit-clothes-color" />
+    <label>購買日期</label><input type="date" id="edit-clothes-date" />
+    <label>價格（NT$）</label><input type="number" id="edit-clothes-price" />
+    <label>備註（選填）</label><input type="text" id="edit-clothes-note" />
+    <label>新增照片（可多選）</label><input type="file" id="edit-clothes-photos" accept="image/*" multiple />
+    <div id="edit-clothes-existing" class="existing-photos"></div>
+  </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveClothesEdit()">儲存</button></div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js"></script>
+<!-- 基本資訊編輯 -->
+<div id="modal-edit" class="modal hidden">
+  <div class="modal-header"><h3 id="edit-modal-title">編輯</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body"><label id="edit-label">內容</label><input type="text" id="edit-input" /></div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveEditField()">儲存</button></div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
 </body>
 </html>
